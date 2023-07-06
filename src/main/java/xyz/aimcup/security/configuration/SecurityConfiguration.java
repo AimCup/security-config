@@ -2,6 +2,7 @@ package xyz.aimcup.security.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +15,7 @@ import xyz.aimcup.security.filter.TokenAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@ComponentScan(basePackages = "xyz.aimcup.security")
 public class SecurityConfiguration {
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
