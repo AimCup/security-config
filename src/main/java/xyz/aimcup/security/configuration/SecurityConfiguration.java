@@ -1,6 +1,7 @@
 package xyz.aimcup.security.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import xyz.aimcup.security.filter.TokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableFeignClients(basePackages = "xyz.aimcup.security.feign")
 @RequiredArgsConstructor
 @ComponentScan(basePackages = "xyz.aimcup.security")
 public class SecurityConfiguration {
