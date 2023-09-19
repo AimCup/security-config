@@ -5,15 +5,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import xyz.aimcup.security.domain.User;
+import xyz.aimcup.generated.model.UserResponseDto;
+import xyz.aimcup.security.domain.UserBase;
 
-@FeignClient(name = "auth-service", path = "/api/auth-service")
+@FeignClient(name = "user-microservice", path = "/user/auth-service")
 @Headers("Authorization: Bearer {token}")
 public interface AuthServiceClient {
 
-    @GetMapping("/issue-jwt")
-    Boolean issueJwt(@RequestHeader("Authorization") String token);
-
-    @GetMapping("/principal")
-    ResponseEntity<User> user(@RequestHeader("Authorization") String token);
+    @GetMapping("/me")
+    ResponseEntity<UserResponseDto> user(@RequestHeader("Authorization") String token);
 }

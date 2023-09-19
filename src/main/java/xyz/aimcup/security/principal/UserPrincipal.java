@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import xyz.aimcup.security.domain.User;
+import xyz.aimcup.security.domain.UserBase;
 
 import java.util.Collection;
 import java.util.Map;
@@ -22,12 +22,12 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public static UserPrincipal create(User user) {
+    public static UserPrincipal create(UserBase userBase) {
         return UserPrincipal.builder()
-                .username(user.getUsername())
-                .osuId(user.getOsuId())
-                .active(!user.getIsRestricted())
-                .authorities(user.getRoles())
+                .username(userBase.getUsername())
+                .osuId(userBase.getOsuId())
+                .active(!userBase.getIsRestricted())
+                .authorities(userBase.getRoles())
                 .build();
     }
 

@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +16,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import xyz.aimcup.security.domain.User;
+import xyz.aimcup.generated.model.UserResponseDto;
+import xyz.aimcup.security.domain.RoleBase;
+import xyz.aimcup.security.domain.UserBase;
 import xyz.aimcup.security.feign.AuthServiceClient;
+import xyz.aimcup.security.mapper.UserMapper;
 import xyz.aimcup.security.principal.UserPrincipal;
 
 import java.io.IOException;
@@ -24,6 +29,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final AuthServiceClient authServiceClient;
+    private final UserMapper userMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
@@ -37,18 +43,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            Boolean isJwtValid = authServiceClient.issueJwt("Bearer " + jwt);
-            if (!isJwtValid) {
+            UserResponseDto userResponseDto = authServiceClient.user("Bearer " + jwt).getBody();
+            UserBase userBase = userMapper.mapUserResponseDtoToUser(userResponseDto);
+            if (userBase == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-
-            User user = authServiceClient.user("Bearer " + jwt).getBody();
-            if (user == null) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-            UserDetails userDetails = UserPrincipal.create(user);
+            Set<RoleBase> roles = userMapper.mapRoles(userResponseDto.getRoles());
+            userBase.setRoles(roles);
+            UserDetails userDetails = UserPrincipal.create(userBase);
             if (userDetails == null) {
                 filterChain.doFilter(request, response);
                 return;

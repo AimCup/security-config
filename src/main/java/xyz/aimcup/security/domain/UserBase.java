@@ -1,5 +1,6 @@
 package xyz.aimcup.security.domain;
 
+import java.util.UUID;
 import lombok.*;
 
 import java.util.HashSet;
@@ -10,11 +11,11 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserBase {
     @Setter(AccessLevel.NONE)
-    private Long id;
+    private UUID id;
     private String username;
     private Long osuId;
     private Boolean isRestricted;
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleBase> roles = new HashSet<>();
 }
