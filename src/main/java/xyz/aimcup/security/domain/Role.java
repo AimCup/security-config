@@ -1,23 +1,29 @@
 package xyz.aimcup.security.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 
+@Entity
 @Getter
 @Setter
-public class RoleBase implements GrantedAuthority {
+public class Role implements GrantedAuthority {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private RoleName name;
 
-    public RoleBase() {
+    public Role() {
 
     }
 
-    public RoleBase(UUID id, RoleName name) {
-        this.id = id;
+    public Role(RoleName name) {
         this.name = name;
     }
 

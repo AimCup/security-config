@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.aimcup.generated.model.UserResponseDto;
-import xyz.aimcup.security.domain.RoleBase;
-import xyz.aimcup.security.domain.UserBase;
+import xyz.aimcup.security.domain.Role;
+import xyz.aimcup.security.domain.User;
 import xyz.aimcup.security.feign.AuthServiceClient;
 import xyz.aimcup.security.mapper.UserMapper;
 import xyz.aimcup.security.principal.UserPrincipal;
@@ -43,13 +42,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            UserResponseDto userResponseDto = authServiceClient.user("Bearer " + jwt).getBody();
-            UserBase userBase = userMapper.mapUserResponseDtoToUser(userResponseDto);
+            UserResponseDto userResponseDto = authServiceClient.me("Bearer " + jwt).getBody();
+            User userBase = userMapper.mapUserResponseDtoToUser(userResponseDto);
             if (userBase == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
-            Set<RoleBase> roles = userMapper.mapRoles(userResponseDto.getRoles());
+            Set<Role> roles = userMapper.mapRoles(userResponseDto.getRoles());
             userBase.setRoles(roles);
             UserDetails userDetails = UserPrincipal.create(userBase);
             if (userDetails == null) {

@@ -5,15 +5,15 @@ import java.util.Set;
 import org.mapstruct.Mapper;
 import xyz.aimcup.generated.model.RoleResponseDto;
 import xyz.aimcup.generated.model.UserResponseDto;
-import xyz.aimcup.security.domain.RoleBase;
-import xyz.aimcup.security.domain.UserBase;
+import xyz.aimcup.security.domain.Role;
+import xyz.aimcup.security.domain.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserBase mapUserResponseDtoToUser(UserResponseDto userResponseDto);
+    User mapUserResponseDtoToUser(UserResponseDto userResponseDto);
 
-    RoleBase mapRoleResponseToRole(RoleResponseDto userBase);
-    RoleBase mapRoleResponseToRole(Object userBase);
-    Set<RoleBase> mapRoles(List<Object> objectList);
+    Role mapRoleResponseToRole(RoleResponseDto userBase);
+    Role mapRoleResponseToRole(Object userBase);
+    Set<Role> mapRoles(List<Object> objectList);
 
 }
