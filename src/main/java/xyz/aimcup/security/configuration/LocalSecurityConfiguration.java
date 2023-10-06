@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import xyz.aimcup.security.filter.TokenAuthenticationFilter;
+import xyz.aimcup.security.filter.LocalTokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,9 +24,9 @@ import xyz.aimcup.security.filter.TokenAuthenticationFilter;
         securedEnabled = true,
         jsr250Enabled = true
 )
-@Profile("!dev")
-public class SecurityConfiguration {
-    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+@Profile("dev")
+public class LocalSecurityConfiguration {
+    private final LocalTokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
