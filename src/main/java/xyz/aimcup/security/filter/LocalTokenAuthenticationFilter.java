@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @Component
-@Profile("dev")
 @RequiredArgsConstructor
 public class LocalTokenAuthenticationFilter extends OncePerRequestFilter {
 

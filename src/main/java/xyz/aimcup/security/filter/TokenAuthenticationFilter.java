@@ -26,7 +26,6 @@ import xyz.aimcup.security.principal.UserPrincipal;
 import java.io.IOException;
 
 @Component
-@Profile("!dev")
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final AuthServiceClient authServiceClient;
