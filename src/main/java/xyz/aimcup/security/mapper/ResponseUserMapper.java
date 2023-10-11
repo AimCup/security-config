@@ -3,13 +3,13 @@ package xyz.aimcup.security.mapper;
 import java.util.List;
 import java.util.Set;
 import org.mapstruct.Mapper;
-import xyz.aimcup.generated.model.RoleResponseDto;
-import xyz.aimcup.generated.model.UserResponseDto;
 import xyz.aimcup.security.domain.Role;
 import xyz.aimcup.security.domain.User;
+import xyz.aimcup.security.dto.RoleResponseDto;
+import xyz.aimcup.security.dto.UserResponseDto;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface ResponseUserMapper {
     User mapUserResponseDtoToUser(UserResponseDto userResponseDto);
 
     Role mapRoleResponseToRole(RoleResponseDto userBase);
