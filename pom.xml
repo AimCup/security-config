@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>xyz.aimcup</groupId>
     <artifactId>security-config</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <properties>
         <java.version>17</java.version>
         <maven.compiler.target>17</maven.compiler.target>
@@ -122,35 +122,35 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.openapitools</groupId>-->
-<!--                <artifactId>openapi-generator-maven-plugin</artifactId>-->
-<!--                <version>6.6.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>generate</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <inputSpec>-->
-<!--                                ${project.basedir}/src/main/resources/shared/openapi/schema.yaml-->
-<!--                            </inputSpec>-->
-<!--                            <generatorName>spring</generatorName>-->
-<!--                            <apiPackage>xyz.aimcup.generated</apiPackage>-->
-<!--                            <modelPackage>xyz.aimcup.generated.model</modelPackage>-->
-<!--                            <generateSupportingFiles>false</generateSupportingFiles>-->
-<!--                            <configOptions>-->
-<!--                                <useTags>true</useTags>-->
-<!--                                <skipDefaultInterface>true</skipDefaultInterface>-->
-<!--                                <interfaceOnly>true</interfaceOnly>-->
-<!--                                <delegatePattern>false</delegatePattern>-->
-<!--                                <useJakartaEe>true</useJakartaEe>-->
-<!--                                <generateApis>false</generateApis>-->
-<!--                            </configOptions>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/shared/openapi/schema.yaml
+                            </inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>xyz.aimcup.generated</apiPackage>
+                            <modelPackage>xyz.aimcup.generated.model</modelPackage>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <interfaceOnly>true</interfaceOnly>
+                                <delegatePattern>false</delegatePattern>
+                                <useJakartaEe>true</useJakartaEe>
+                                <generateApis>false</generateApis>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
