@@ -1,11 +1,13 @@
 package xyz.aimcup.security.principal;
 
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import xyz.aimcup.security.domain.UserBase;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import xyz.aimcup.security.domain.User;
 
 import java.util.Collection;
 import java.util.Map;
@@ -13,8 +15,9 @@ import java.util.Map;
 @Builder
 @Getter
 @Setter
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails, OAuth2User {
 
+    private UUID id;
     private String username;
     private Long osuId;
 
@@ -22,13 +25,20 @@ public class UserPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public static UserPrincipal create(UserBase userBase) {
+    public static UserPrincipal create(User userBase) {
         return UserPrincipal.builder()
-                .username(userBase.getUsername())
-                .osuId(userBase.getOsuId())
-                .active(!userBase.getIsRestricted())
-                .authorities(userBase.getRoles())
-                .build();
+            .id(userBase.getId())
+            .username(userBase.getUsername())
+            .osuId(userBase.getOsuId())
+            .active(!userBase.getIsRestricted())
+            .authorities(userBase.getRoles())
+            .build();
+    }
+
+    public static UserPrincipal create(User user, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = UserPrincipal.create(user);
+        userPrincipal.setAttributes(attributes);
+        return userPrincipal;
     }
 
     @Override
@@ -64,5 +74,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return this.username;
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import xyz.aimcup.security.filter.TokenAuthenticationFilter;
+import xyz.aimcup.security.filter.LocalTokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -26,12 +25,11 @@ import xyz.aimcup.security.filter.TokenAuthenticationFilter;
         securedEnabled = true,
         jsr250Enabled = true
 )
-@Profile("!dev")
 @Slf4j
-public class SecurityConfiguration {
-    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+public class LocalSecurityConfiguration {
+    private final LocalTokenAuthenticationFilter tokenAuthenticationFilter;
 
-    @Bean
+    @Bean(name = "globalSecurityFilterChain")
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(AbstractHttpConfigurer::disable)
@@ -45,6 +43,6 @@ public class SecurityConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("SecurityConfiguration loaded. Securing with PRODUCTION settings.");
+        log.info("SecurityConfiguration loaded. Securing with DEVELOPMENT settings.");
     }
 }
