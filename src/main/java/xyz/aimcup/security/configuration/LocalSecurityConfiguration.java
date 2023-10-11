@@ -1,11 +1,12 @@
 package xyz.aimcup.security.configuration;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,11 +25,11 @@ import xyz.aimcup.security.filter.LocalTokenAuthenticationFilter;
         securedEnabled = true,
         jsr250Enabled = true
 )
-@Profile("dev")
+@Slf4j
 public class LocalSecurityConfiguration {
     private final LocalTokenAuthenticationFilter tokenAuthenticationFilter;
 
-    @Bean
+    @Bean(name = "globalSecurityFilterChain")
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(AbstractHttpConfigurer::disable)
@@ -38,5 +39,10 @@ public class LocalSecurityConfiguration {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .build();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("SecurityConfiguration loaded. Securing with DEVELOPMENT settings.");
     }
 }
